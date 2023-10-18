@@ -16,11 +16,11 @@ describe('EnvironmentService', () => {
     environmentService = module.get<EnvironmentService>(EnvironmentService);
   });
 
-  it('Deve ser definido', () => {
+  it('Should be defined', () => {
     expect(environmentService).toBeDefined();
   });
 
-  it('Deve retornar o valor do ConfigService', () => {
+  it('Should return the value from ConfigService', () => {
     const result = environmentService.get('ENV_TYPE');
     expect(result).toBe('test');
   });

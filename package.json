@@ -1,5 +1,5 @@
 {
-  "name": "template-backend",
+  "name": "whatanime-backend",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -21,6 +21,7 @@
     "typecheck": "tsc --project tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@fastify/static": "^6.11.2",
     "@nestjs/axios": "^3.0.0",
     "@nestjs/common": "^10.2.7",
     "@nestjs/config": "^3.1.1",

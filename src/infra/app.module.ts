@@ -1,4 +1,3 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
@@ -6,6 +5,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { ZodValidationPipe } from 'nestjs-zod';
 
 import { envSchema, getPersistence } from './environment/utils';
+import { HttpModule } from './http/http.module';
 import { PersistenceModule } from './persistence/persistence.module';
 
 @Module({

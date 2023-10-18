@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger } from 'nestjs-pino';
 import { patchNestJsSwagger } from 'nestjs-zod';
@@ -7,7 +8,7 @@ import { patchNestJsSwagger } from 'nestjs-zod';
 import { EnvironmentService } from './environment/environment.service';
 import { AppModule } from './app.module';
 
-const APP_NAME_PREFIX = 'template-backend';
+const APP_NAME_PREFIX = 'whatanime-backend';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -22,7 +23,7 @@ async function bootstrap() {
   }
 
   const options = new DocumentBuilder()
-    .setTitle('Template Backend')
+    .setTitle('WhatAnime Backend')
     .setVersion('1.0')
     .build();
 

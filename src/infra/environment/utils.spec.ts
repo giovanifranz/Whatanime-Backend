@@ -2,32 +2,32 @@ import { PERSISTENCE } from '@/infra/persistence/persistence.module';
 
 import { getPersistence, isDeployment } from './utils';
 
-describe(`Testes para as funções`, () => {
+describe(`Tests for the functions`, () => {
   describe(`getPersistence`, () => {
-    it(`Deve retornar PERSISTENCE.MEMORY quando o processo PERSISTENCE é %{PERSISTENCE.MEMORY}`, () => {
+    it(`Should return PERSISTENCE.MEMORY when the PERSISTENCE environment variable is set to ${PERSISTENCE.MEMORY}`, () => {
       process.env.PERSISTENCE = PERSISTENCE.MEMORY;
-      const resultado = getPersistence();
-      expect(resultado).toBe(PERSISTENCE.MEMORY);
+      const result = getPersistence();
+      expect(result).toBe(PERSISTENCE.MEMORY);
     });
 
-    it(`Deve retornar ${PERSISTENCE.MONGO} quando o processo PERSISTENCE não está definido`, () => {
+    it(`Should return ${PERSISTENCE.MONGO} when the PERSISTENCE environment variable is not defined`, () => {
       delete process.env.PERSISTENCE;
-      const resultado = getPersistence();
-      expect(resultado).toBe(PERSISTENCE.MONGO);
+      const result = getPersistence();
+      expect(result).toBe(PERSISTENCE.MONGO);
     });
   });
 
   describe(`isDeployment`, () => {
-    it(`Deve retornar true quando NODE_ENV é "production"`, () => {
+    it(`Should return true when NODE_ENV is "production"`, () => {
       process.env.NODE_ENV = `production`;
-      const resultado = isDeployment();
-      expect(resultado).toBe(true);
+      const result = isDeployment();
+      expect(result).toBe(true);
     });
 
-    it(`Deve retornar false quando NODE_ENV não é "production"`, () => {
-      process.env.NODE_ENV = `development`; // ou qualquer outro valor diferente de "production"
-      const resultado = isDeployment();
-      expect(resultado).toBe(false);
+    it(`Should return false when NODE_ENV is not "production"`, () => {
+      process.env.NODE_ENV = `development`; // or any other value different from "production"
+      const result = isDeployment();
+      expect(result).toBe(false);
     });
   });
 });
