@@ -15,7 +15,7 @@ export class MongoAnimeRepository extends AnimeRepository {
   private readonly model!: Model<AnimeDocument>;
 
   async create(anime: Anime): Promise<void> {
-    this.model.create(anime);
+    this.model.create(MongoAnimeMapper.fromDomain(anime));
   }
   async createMany(animes: Anime[]): Promise<void> {
     this.model.insertMany(animes);

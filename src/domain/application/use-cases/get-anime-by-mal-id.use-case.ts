@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
 import { Either, left, right } from '@/core/either';
 import { UseCase } from '@/core/entities/use-case.abstract';
@@ -11,6 +11,8 @@ import { QuoteFactory } from '@/domain/enterprise/factories/quote.factory';
 import { AnimeClient } from '@/infra/http/rest/clients/anime.client';
 import { QuoteClient } from '@/infra/http/rest/clients/quote.client';
 
+import { AnimeRepository } from '../repositories/anime.repository.abstract';
+
 interface GetAnimeByMalIdUseCaseRequest {
   malId: number;
 }
@@ -20,6 +22,9 @@ type GetAnimeByMalIdUseCaseResponse = Either<Error, Anime>;
 export class GetAnimeByMalIdUseCase
   implements UseCase<GetAnimeByMalIdUseCaseRequest, GetAnimeByMalIdUseCaseResponse>
 {
+  @Inject(AnimeRepository)
+  private readonly animeRepository!: AnimeRepository;
+
   constructor(
     private readonly animeClient: AnimeClient,
     private readonly quoteClient: QuoteClient,
@@ -28,6 +33,10 @@ export class GetAnimeByMalIdUseCase
   async execute({
     malId,
   }: GetAnimeByMalIdUseCaseRequest): Promise<GetAnimeByMalIdUseCaseResponse> {
+    const existsInDatabase = await this.animeRepository.findByMalId(malId);
+
+    if (existsInDatabase) return right(existsInDatabase);
+
     const animeResponse = await this.animeClient
       .getAnimeByMalId(malId)
       .then(({ data: response }) => response.data)
@@ -65,6 +74,12 @@ export class GetAnimeByMalIdUseCase
       quotes,
       ...parsedAnime.data,
     });
+
+    try {
+      await this.animeRepository.create(animeByMalId);
+    } catch (err) {
+      console.error(err);
+    }
 
     return right(animeByMalId);
   }

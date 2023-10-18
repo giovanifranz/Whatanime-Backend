@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
 import { Either, left, right } from '@/core/either';
 import { UseCase } from '@/core/entities/use-case.abstract';
@@ -11,6 +11,8 @@ import { QuoteFactory } from '@/domain/enterprise/factories/quote.factory';
 import { AnimeClient } from '@/infra/http/rest/clients/anime.client';
 import { QuoteClient } from '@/infra/http/rest/clients/quote.client';
 
+import { AnimeRepository } from '../repositories/anime.repository.abstract';
+
 interface GetAnimeRandomUseCaseRequest {}
 type GetAnimeRandomUseCaseResponse = Either<Error, Anime>;
 
@@ -18,6 +20,9 @@ type GetAnimeRandomUseCaseResponse = Either<Error, Anime>;
 export class GetAnimeRandomUseCase
   implements UseCase<GetAnimeRandomUseCaseRequest, GetAnimeRandomUseCaseResponse>
 {
+  @Inject(AnimeRepository)
+  private readonly animeRepository!: AnimeRepository;
+
   constructor(
     private readonly animeClient: AnimeClient,
     private readonly quoteClient: QuoteClient,
@@ -61,6 +66,12 @@ export class GetAnimeRandomUseCase
       quotes,
       ...parsedAnime.data,
     });
+
+    try {
+      await this.animeRepository.create(animeRandom);
+    } catch (err) {
+      console.error(err);
+    }
 
     return right(animeRandom);
   }

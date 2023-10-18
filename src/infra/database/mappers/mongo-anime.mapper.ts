@@ -19,4 +19,18 @@ export class MongoAnimeMapper {
       quotes: [],
     });
   }
+
+  static fromDomain(domain: Anime) {
+    return {
+      id: domain.id,
+      episodes: domain.episodes,
+      image: domain.image,
+      mal_id: domain.malId,
+      title: domain.title,
+      score: domain.score,
+      slug: domain.slug.value,
+      synopsis: domain.synopsis,
+      year: domain.year,
+    };
+  }
 }
