@@ -1,15 +1,37 @@
-import { Controller, Get } from '@nestjs/common';
-import { map } from 'rxjs';
+import { BadRequestException, Controller, Get, Param } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
-import { AnimeClient } from '../clients/anime.client';
+import { GetAnimeByTitleUseCase } from '@/domain/use-cases/get-anime-by-title.use-case';
+import { GetAnimeRandomUseCase } from '@/domain/use-cases/get-anime-random.use-case';
 
+@ApiTags('Anime')
 @Controller('/anime')
 export class AnimeController {
-  constructor(private anime: AnimeClient) {}
+  constructor(
+    private readonly getAnimeRandomUseCase: GetAnimeRandomUseCase,
+    private readonly getAnimeByTitleUseCase: GetAnimeByTitleUseCase,
+  ) {}
 
   @Get('/random')
-  animeRandom() {
-    return this.anime.getAnimeRandom().pipe(map((response) => response.data));
+  async getAnimeRandom() {
+    const result = await this.getAnimeRandomUseCase.execute();
+
+    if (result.isLeft()) {
+      return new BadRequestException('AnimeRandom failed');
+    }
+
+    return result.value;
+  }
+
+  @Get('/from/title/:title')
+  async getAnimeByTitle(@Param('title') title: string) {
+    const result = await this.getAnimeByTitleUseCase.execute({ title });
+
+    if (result.isLeft()) {
+      return new BadRequestException('AnimeRandom failed');
+    }
+
+    return result.value;
   }
 
   /* @Get('/from/mal_id/:mal_id')
@@ -17,10 +39,7 @@ export class AnimeController {
     return this.getAnimeById.execute(Number(mal_id)); // TODO VALIDAR SE ESTA ENTRANDO SEMPRE NUMERO
   }
 
-  @Get('/from/title/:title')
-  getAnimesByTitleOnJikan(@Param('title') title: string) {
-    return this.getAnimeByTitle.execute(title);
-  }
+
 
   @Get('/top')
   getAnimeTop() {

@@ -1,56 +1,39 @@
 import { z } from 'nestjs-zod/z';
 
 const ImageSchema = z.object({
-  image_url: z.union([z.null(), z.string()]).optional(),
-  small_image_url: z.union([z.null(), z.string()]).optional(),
-  large_image_url: z.union([z.null(), z.string()]).optional(),
+  image_url: z.string(),
 });
 
 const TitleSchema = z.object({
-  type: z.union([z.null(), z.string()]).optional(),
-  title: z.union([z.null(), z.string()]).optional(),
+  type: z.string(),
+  title: z.string(),
 });
 
-const AnimeSchema = z
+export const AnimeSchema = z
   .object({
     mal_id: z.number(),
-    images: z
-      .union([
-        z.null(),
-        z.object({
-          jpg: z.union([z.null(), ImageSchema]).optional(),
-          webp: z.union([z.null(), ImageSchema]).optional(),
-        }),
-      ])
-      .optional(),
+    images: z.object({
+      jpg: ImageSchema,
+      webp: z.union([z.null(), ImageSchema]).optional(),
+    }),
     title: z.string(),
-    titles: z.array(TitleSchema),
+    titles: z.union([z.null(), z.array(TitleSchema)]).optional(),
     episodes: z.union([z.null(), z.number()]).optional(),
     score: z.union([z.number(), z.null()]).optional(),
     synopsis: z.union([z.null(), z.string()]).optional(),
     year: z.union([z.number(), z.null()]).optional(),
   })
   .transform((data) => ({
-    id: data.mal_id,
-    image:
-      data.images?.webp?.image_url || data.images?.jpg?.image_url || '/placeholder.png',
-    title: data.titles[0].title || data.title,
     episodes: data.episodes || null,
+    image: data.images.webp?.image_url || data.images.jpg.image_url,
+    malId: data.mal_id,
+    score: data.score || null,
+    title: data.titles ? data.titles[0].title : data.title,
     synopsis: data.synopsis || null,
     year: data.year || null,
-    score: data.score || null,
   }));
 
 const MultipleAnimesSchema = z.array(AnimeSchema);
-
-const RankingSchema = z
-  .object({ mal_id: z.number(), title: z.string() })
-  .transform((data) => ({
-    id: data.mal_id,
-    title: data.title,
-  }));
-
-export type Ranking = z.output<typeof RankingSchema>;
 
 export type SingleAnimeResponse = {
   data: z.input<typeof AnimeSchema>;
@@ -75,25 +58,3 @@ export type MultipleAnimeResponse = {
   data: z.input<typeof MultipleAnimesSchema>;
   pagination: PaginationResponse;
 };
-
-export type Anime = z.output<typeof AnimeSchema>;
-
-export const AnimeChunksSchema = z.array(
-  z.object({
-    animes: MultipleAnimesSchema,
-  }),
-);
-
-export type AnimeChunks = z.infer<typeof AnimeChunksSchema>;
-
-const AnimeByTitleSchema = z.object({
-  pagination: z.object({
-    has_next_page: z.boolean(),
-    current_page: z.number(),
-  }),
-  data: MultipleAnimesSchema,
-  isLoading: z.boolean(),
-  error: z.union([z.null(), z.string()]),
-});
-
-export type AnimeByTitle = z.infer<typeof AnimeByTitleSchema>;

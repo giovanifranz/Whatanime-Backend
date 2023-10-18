@@ -5,16 +5,16 @@ import { QuoteResponse } from '@/domain/schemas/quote.schema';
 
 @Injectable()
 export class QuoteClient {
-  private animeChan = 'https://animechan.vercel.app/api';
+  private animeChan = 'https://animechan.xyz/api';
 
   constructor(private readonly httpService: HttpService) {}
 
   getRandomAnimeQuote() {
-    return this.httpService.get<QuoteResponse>(`${this.animeChan}/random`);
+    return this.httpService.axiosRef.get<QuoteResponse>(`${this.animeChan}/random`);
   }
 
   getAnimesQuoteByTitle(title: string) {
-    return this.httpService.get<QuoteResponse[]>(
+    return this.httpService.axiosRef.get<QuoteResponse[]>(
       `${this.animeChan}/quotes/anime?title=${title}`,
     );
   }

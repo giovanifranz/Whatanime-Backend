@@ -13,4 +13,3 @@ export const QuoteSchema = z
   }));
 
 export type QuoteResponse = z.input<typeof QuoteSchema>;
-export type Quote = z.output<typeof QuoteSchema>;
