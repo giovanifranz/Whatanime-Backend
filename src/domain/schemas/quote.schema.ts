@@ -9,7 +9,7 @@ export const QuoteSchema = z
   .transform((data) => ({
     title: data.anime,
     character: data.character,
-    quote: data.quote,
+    text: data.quote,
   }));
 
 export type QuoteResponse = z.input<typeof QuoteSchema>;

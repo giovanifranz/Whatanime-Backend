@@ -1,6 +1,7 @@
 import { HttpModule as AxiosModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 
+import { GetAnimeByMalIdUseCase } from '@/domain/use-cases/get-anime-by-mal-id.use-case';
 import { GetAnimeByTitleUseCase } from '@/domain/use-cases/get-anime-by-title.use-case';
 import { GetAnimeRandomUseCase } from '@/domain/use-cases/get-anime-random.use-case';
 
@@ -15,7 +16,13 @@ import { AnimeController } from './rest/controllers/anime.controller';
       maxRedirects: 5,
     }),
   ],
-  providers: [AnimeClient, QuoteClient, GetAnimeRandomUseCase, GetAnimeByTitleUseCase],
+  providers: [
+    AnimeClient,
+    QuoteClient,
+    GetAnimeRandomUseCase,
+    GetAnimeByTitleUseCase,
+    GetAnimeByMalIdUseCase,
+  ],
   controllers: [AnimeController],
 })
 export class HttpModule {}

@@ -15,7 +15,16 @@ import { QuoteSchema } from '../schemas/quote.schema';
 interface GetAnimeByTitleUseCaseRequest {
   title: string;
 }
-type GetAnimeByTitleUseCaseResponse = Either<Error, Anime[]>;
+type GetAnimeByTitleUseCaseResponse = Either<
+  Error,
+  {
+    data: Anime[];
+    pagination: {
+      has_next_page: boolean;
+      current_page: number;
+    };
+  }
+>;
 
 @Injectable()
 export class GetAnimeByTitleUseCase
@@ -63,6 +72,12 @@ export class GetAnimeByTitleUseCase
       );
     });
 
-    return right(animes);
+    return right({
+      data: animes,
+      pagination: {
+        has_next_page: resolvedAnime.value.data.pagination.has_next_page,
+        current_page: resolvedAnime.value.data.pagination.current_page,
+      },
+    });
   }
 }
