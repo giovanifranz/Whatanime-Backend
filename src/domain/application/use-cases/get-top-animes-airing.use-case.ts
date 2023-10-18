@@ -2,9 +2,8 @@ import { Injectable } from '@nestjs/common';
 
 import { Either, left, right } from '@/core/either';
 import { UseCase } from '@/core/entities/use-case.abstract';
+import { Slug } from '@/domain/enterprise/value-objects/slug';
 import { AnimeClient } from '@/infra/http/rest/clients/anime.client';
-
-import { Slug } from '../value-objects/slug';
 
 type Title = {
   malId: number;

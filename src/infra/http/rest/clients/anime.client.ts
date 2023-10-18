@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import {
   MultipleAnimeResponse,
   SingleAnimeResponse,
-} from '@/domain/schemas/anime.schema';
+} from '@/domain/application/schemas/anime.schema';
 
 @Injectable()
 export class AnimeClient {

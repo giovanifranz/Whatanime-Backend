@@ -1,4 +1,4 @@
-import { Slug } from '@/domain/value-objects/slug';
+import { Slug } from '@/domain/enterprise/value-objects/slug';
 
 interface Anime {
   malId: number;

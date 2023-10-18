@@ -1,4 +1,4 @@
-import { Anime } from '@/domain/entities/anime.entity';
+import { Anime } from '@/domain/enterprise/entities/anime.entity';
 
 interface Quote {
   quoteId: string;

@@ -2,15 +2,14 @@ import { Injectable } from '@nestjs/common';
 
 import { Either, left, right } from '@/core/either';
 import { UseCase } from '@/core/entities/use-case.abstract';
+import { AnimeSchema } from '@/domain/application/schemas/anime.schema';
+import { QuoteSchema } from '@/domain/application/schemas/quote.schema';
+import { Anime } from '@/domain/enterprise/entities/anime.entity';
+import { Quote } from '@/domain/enterprise/entities/quote.entity';
+import { AnimeFactory } from '@/domain/enterprise/factories/anime.factory';
+import { QuoteFactory } from '@/domain/enterprise/factories/quote.factory';
 import { AnimeClient } from '@/infra/http/rest/clients/anime.client';
 import { QuoteClient } from '@/infra/http/rest/clients/quote.client';
-
-import { Anime } from '../entities/anime.entity';
-import { Quote } from '../entities/quote.entity';
-import { AnimeFactory } from '../factories/anime.factory';
-import { QuoteFactory } from '../factories/quote.factory';
-import { AnimeSchema } from '../schemas/anime.schema';
-import { QuoteSchema } from '../schemas/quote.schema';
 
 interface GetAnimeByMalIdUseCaseRequest {
   malId: number;

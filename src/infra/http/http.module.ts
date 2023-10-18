@@ -1,11 +1,11 @@
 import { HttpModule as AxiosModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 
-import { GetAnimeByMalIdUseCase } from '@/domain/use-cases/get-anime-by-mal-id.use-case';
-import { GetAnimeByTitleUseCase } from '@/domain/use-cases/get-anime-by-title.use-case';
-import { GetAnimeRandomUseCase } from '@/domain/use-cases/get-anime-random.use-case';
-import { GetAnimesByPopularityUseCase } from '@/domain/use-cases/get-animes-by-popularity.use-case';
-import { GetTopAnimesAiringUseCase } from '@/domain/use-cases/get-top-animes-airing.use-case';
+import { GetAnimeByMalIdUseCase } from '@/domain/application/use-cases/get-anime-by-mal-id.use-case';
+import { GetAnimeByTitleUseCase } from '@/domain/application/use-cases/get-anime-by-title.use-case';
+import { GetAnimeRandomUseCase } from '@/domain/application/use-cases/get-anime-random.use-case';
+import { GetAnimesByPopularityUseCase } from '@/domain/application/use-cases/get-animes-by-popularity.use-case';
+import { GetTopAnimesAiringUseCase } from '@/domain/application/use-cases/get-top-animes-airing.use-case';
 
 import { AnimeClient } from './rest/clients/anime.client';
 import { QuoteClient } from './rest/clients/quote.client';

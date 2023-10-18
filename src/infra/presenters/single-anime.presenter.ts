@@ -1,4 +1,4 @@
-import { Anime } from '@/domain/entities/anime.entity';
+import { Anime } from '@/domain/enterprise/entities/anime.entity';
 
 export class SingleAnimePresenter {
   static toHTTP(anime: Anime) {

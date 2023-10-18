@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 
-import { QuoteResponse } from '@/domain/schemas/quote.schema';
+import { QuoteResponse } from '@/domain/application/schemas/quote.schema';
 
 @Injectable()
 export class QuoteClient {
