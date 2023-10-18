@@ -12,19 +12,25 @@ export class AnimeClient {
 
   constructor(private readonly httpService: HttpService) {}
 
-  getAnimesByTitleOnJikan(title: string) {
+  getAnimesByTitle(title: string, page: number = 1) {
     return this.httpService.axiosRef.get<MultipleAnimeResponse>(
-      `${this.jikanAPI}/anime?q=${title}&order_by=score&&sort=desc`,
+      `${this.jikanAPI}/anime?q=${title}&page=${page}`,
     );
   }
 
-  getAnimeTop() {
+  getToAnimesAiring() {
     return this.httpService.axiosRef.get<MultipleAnimeResponse>(
-      `${this.jikanAPI}/top/anime`,
+      `${this.jikanAPI}/anime?order_by=score&status=airing&sort=desc`,
     );
   }
 
-  getAnimeByIdOnJikan(mal_id: number) {
+  getAnimesByPopularity() {
+    return this.httpService.axiosRef.get<MultipleAnimeResponse>(
+      `${this.jikanAPI}/anime?order_by=popularity`,
+    );
+  }
+
+  getAnimeByMalId(mal_id: number) {
     return this.httpService.axiosRef.get<SingleAnimeResponse>(
       `${this.jikanAPI}/anime/${mal_id}`,
     );

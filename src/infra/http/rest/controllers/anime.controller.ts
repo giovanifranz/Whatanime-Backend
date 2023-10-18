@@ -4,7 +4,10 @@ import { ApiTags } from '@nestjs/swagger';
 import { GetAnimeByMalIdUseCase } from '@/domain/use-cases/get-anime-by-mal-id.use-case';
 import { GetAnimeByTitleUseCase } from '@/domain/use-cases/get-anime-by-title.use-case';
 import { GetAnimeRandomUseCase } from '@/domain/use-cases/get-anime-random.use-case';
+import { GetAnimesByPopularityUseCase } from '@/domain/use-cases/get-animes-by-popularity.use-case';
+import { GetTopAnimesAiringUseCase } from '@/domain/use-cases/get-top-animes-airing.use-case';
 import { AnimeByTitlePresenter } from '@/infra/presenters/anime-by-title.presenter';
+import { RankingPresenter } from '@/infra/presenters/anime-ranking.presenter';
 import { SingleAnimePresenter } from '@/infra/presenters/single-anime.presenter';
 
 @ApiTags('Anime')
@@ -14,6 +17,8 @@ export class AnimeController {
     private readonly getAnimeRandomUseCase: GetAnimeRandomUseCase,
     private readonly getAnimeByTitleUseCase: GetAnimeByTitleUseCase,
     private readonly getAnimeByMalIdUseCase: GetAnimeByMalIdUseCase,
+    private readonly getAnimesByPopularityUseCase: GetAnimesByPopularityUseCase,
+    private readonly getTopAnimesAiringUseCase: GetTopAnimesAiringUseCase,
   ) {}
 
   @Get('/random')
@@ -52,9 +57,25 @@ export class AnimeController {
     return SingleAnimePresenter.toHTTP(result.value);
   }
 
-  /*
-  @Get('/top')
-  getAnimeTop() {
-    return this.jikan.getAnimeTop();
-  }*/
+  @Get('/top/popularity')
+  async getAnimesByPopularity() {
+    const result = await this.getAnimesByPopularityUseCase.execute();
+
+    if (result.isLeft()) {
+      return new BadRequestException('Anime by popularity failed');
+    }
+
+    return RankingPresenter.toHTTP(result.value, 10);
+  }
+
+  @Get('/top/airing')
+  async getTopAnimesAiring() {
+    const result = await this.getTopAnimesAiringUseCase.execute();
+
+    if (result.isLeft()) {
+      return new BadRequestException('Anime by airing failed');
+    }
+
+    return RankingPresenter.toHTTP(result.value, 5);
+  }
 }

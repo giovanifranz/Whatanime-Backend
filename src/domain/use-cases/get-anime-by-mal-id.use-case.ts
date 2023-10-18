@@ -30,7 +30,7 @@ export class GetAnimeByMalIdUseCase
     malId,
   }: GetAnimeByMalIdUseCaseRequest): Promise<GetAnimeByMalIdUseCaseResponse> {
     const animeResponse = await this.animeClient
-      .getAnimeByIdOnJikan(malId)
+      .getAnimeByMalId(malId)
       .then(({ data: response }) => response.data)
       .catch(() => null);
 

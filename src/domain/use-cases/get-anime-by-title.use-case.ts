@@ -39,7 +39,7 @@ export class GetAnimeByTitleUseCase
     title,
   }: GetAnimeByTitleUseCaseRequest): Promise<GetAnimeByTitleUseCaseResponse> {
     const [resolvedAnime, resolvedQuote] = await Promise.allSettled([
-      this.animeClient.getAnimesByTitleOnJikan(title),
+      this.animeClient.getAnimesByTitle(title),
       this.quoteClient.getAnimesQuoteByTitle(title),
     ]);
 
