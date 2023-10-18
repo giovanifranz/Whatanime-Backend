@@ -4,9 +4,9 @@ import { APP_PIPE } from '@nestjs/core';
 import { LoggerModule } from 'nestjs-pino';
 import { ZodValidationPipe } from 'nestjs-zod';
 
-import { envSchema, getPersistence } from './environment/utils';
+import { DatabaseModule } from './database/database.module';
+import { envSchema } from './environment/utils';
 import { HttpModule } from './http/http.module';
-import { PersistenceModule } from './persistence/persistence.module';
 
 @Module({
   providers: [
@@ -29,7 +29,7 @@ import { PersistenceModule } from './persistence/persistence.module';
       },
     }),
     HttpModule,
-    PersistenceModule.forRoot(getPersistence()),
+    DatabaseModule,
   ],
 })
 export class AppModule {}

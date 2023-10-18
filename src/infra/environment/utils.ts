@@ -1,6 +1,6 @@
 import { z } from 'nestjs-zod/z';
 
-import { PERSISTENCE } from '@/infra/persistence/persistence.module';
+import { PERSISTENCE } from '@/infra/database/persistence/persistence.module';
 
 export function getPersistence() {
   if (process.env.PERSISTENCE === PERSISTENCE.MEMORY) return PERSISTENCE.MEMORY;
@@ -13,7 +13,7 @@ export function isDeployment() {
 
 export const envSchema = z.object({
   ENV_TYPE: z.enum(['dev', 'prd', 'test']).default('dev'),
-  PORT: z.coerce.number().optional().default(5000),
+  PORT: z.coerce.number().optional().default(3333),
   PERSISTENCE: z.enum(['MONGO', 'MEMORY']).optional().default('MONGO'),
   MONGODB_URI: z.string().url(),
 });

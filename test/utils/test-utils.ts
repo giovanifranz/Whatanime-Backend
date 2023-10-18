@@ -7,8 +7,11 @@ import merge from 'deepmerge';
 import { LoggerModule } from 'nestjs-pino';
 import { Observable, throwError } from 'rxjs';
 
+import {
+  PERSISTENCE,
+  PersistenceModule,
+} from '@/infra/database/persistence/persistence.module';
 import { EnvironmentModule } from '@/infra/environment/environment.module';
-import { PERSISTENCE, PersistenceModule } from '@/infra/persistence/persistence.module';
 
 export function mockSuccess<M>(mock: M): Observable<M> {
   return new Observable((subscribe) => {

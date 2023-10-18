@@ -1,4 +1,4 @@
-import { PERSISTENCE } from '@/infra/persistence/persistence.module';
+import { PERSISTENCE } from '@/infra/database/persistence/persistence.module';
 
 import { getPersistence, isDeployment } from './utils';
 

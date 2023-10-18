@@ -11,10 +11,10 @@ export interface AnimeProps {
   image: string;
   title: string;
   slug: Slug;
-  episodes: number | null;
-  synopsis: string | null;
-  year: number | null;
-  score: number | null;
+  episodes?: number | null;
+  synopsis?: string | null;
+  year?: number | null;
+  score?: number | null;
   quotes: Quote[];
 }
 
@@ -35,13 +35,13 @@ export class Anime extends Entity {
     this._image = props.image;
     this._title = props.title;
     this._slug = Slug.createFromText(props.title);
-    this._episodes = props.episodes;
+    this._episodes = props.episodes || null;
     this._synopsis = props.synopsis
       ? props.synopsis.replace('\n\n[Written by MAL Rewrite]', '')
       : null;
-    this._year = props.year;
-    this._score = props.score;
-    this._quotes = props.quotes;
+    this._year = props.year || null;
+    this._score = props.score || null;
+    this._quotes = props.quotes || null;
   }
 
   // Getters
